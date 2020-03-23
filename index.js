@@ -19,7 +19,7 @@ app.get('/allItems', function (req, res) {
 });
 app.get('/allItemsAsArray', function (req, res) {
   let data = JSON.parse(fs.readFileSync('./database/acnh-data.json'))
-  data = [...data.fishes, data.clothing, ...data.insects, ...data.fossils, ...data.furniture, ...data.birthdays]
+  data = [...data.fishes, ...data.clothing, ...data.insects, ...data.fossils, ...data.furniture, ...data.birthdays]
   res.send(data);
 });
 
