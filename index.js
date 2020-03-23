@@ -18,9 +18,14 @@ app.get('/allItems', function (req, res) {
   res.send(data);
 });
 app.get('/allItemsAsArray', function (req, res) {
+  let databaseData = [];
   let data = JSON.parse(fs.readFileSync('./database/acnh-data.json'))
-  data = [...data.fishes, ...data.clothing, ...data.insects, ...data.fossils, ...data.furniture, ...data.birthdays]
-  res.send(data);
+
+  Object.getOwnPropertyNames(data).forEach(key => {
+    let value = data[key];
+    databaseData.push(...value);
+  });
+  res.send(databaseData);
 });
 
 app.listen(3000, function () {
@@ -58,6 +63,13 @@ app.post('/birthdays', function (req, res) {
 app.post('/fossils', function (req, res) {
   let data = JSON.parse(fs.readFileSync('./database/acnh-data.json'))
   data.fossils.push(req.body)
+  fs.writeFileSync('./database/acnh-data.json', JSON.stringify(data));
+  res.send('Item Saved');
+});
+
+app.post('/shells', function (req, res) {
+  let data = JSON.parse(fs.readFileSync('./database/acnh-data.json'))
+  data.shells.push(req.body)
   fs.writeFileSync('./database/acnh-data.json', JSON.stringify(data));
   res.send('Item Saved');
 });
